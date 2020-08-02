@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MarbleHouse.Models.SpecialTags>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br />
+<br />
+
+<div class="row">
+    <div class="col-6">
+        <h3 class="text-info">Special Types Available</h3>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-success"><i class="fas fa-plus"></i>  Create New Special Type</a>
+    </div>
+</div>
+
+<br />
+<div>
+    <table class="table table-striped border">
+        <tr class="table-info">
+            <th>
+                @Html.DisplayNameFor(n => n.Name)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(n => item.Name)</td>
+                <td>
+                    <partial name="_TableButtonsPartial" model="item.Id" />
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

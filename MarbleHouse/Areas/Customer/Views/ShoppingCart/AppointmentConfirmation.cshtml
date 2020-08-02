@@ -1,0 +1,17 @@
+﻿@model MarbleHouse.Models.ViewModels.ShoppingCartViewModel
+@{
+    ViewData["Title"] = "AppointmentConfirmation";
+}
+
+<br />
+<h2 class="text-info">Appointment Confirmation</h2>
+<div class="form-text">
+    Appointment has been submitted successfully. You will be contacted by our representive and if you have any queries please feel free to contact us anytime
+</div>
+
+<br />
+<partial name="~/Views/Shared/_AppointmentCustomerDetails.cshtml" model="Model.Appointments"/>
+<br /><br />
+<partial name="~/Views/Shared/_AppointmentProjectDetails.cshtml" model="Model.Products" />
+
+<a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn Dbtn-success">Back to Products</a>

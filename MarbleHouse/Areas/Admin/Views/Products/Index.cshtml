@@ -1,0 +1,69 @@
+﻿@model IEnumerable<MarbleHouse.Models.Products>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<br />
+<br />
+
+<div class="row">
+    <div class="col-6">
+        <h3 class="text-info">Products Available</h3>
+    </div>
+    <div class="col-6 text-right">
+        <a asp-action="Create" class="btn btn-success"><i class="fas fa-plus"></i>  Create New Product</a>
+    </div>
+</div>
+
+<br />
+<div>
+    <table class="table table-striped border">
+        <tr class="table-info">
+            <th>
+                @Html.DisplayNameFor(n => n.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(n => n.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(n => n.Available)
+            </th>
+            <th>
+                @Html.DisplayNameFor(n => n.ProductTypes.Name)
+
+            </th>
+            <th>
+                @Html.DisplayNameFor(n => n.SpecialTags.Name)
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (var item in Model)
+        {
+    <tr>
+        <td>
+            @Html.DisplayFor(n => item.Name)
+        </td>
+        <td>
+            @String.Format("{0:c}",item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(n => item.Available)
+        </td>
+        <td>
+            @Html.DisplayFor(n => item.ProductTypes.Name)
+        </td>
+        <td>
+            @if (!item.SpecialTags.Name.Equals("--None--"))
+            {
+            @Html.DisplayFor(n => item.SpecialTags.Name)
+            }
+        </td>
+        <td>
+            <partial name="_TableButtonsPartial" model="item.Id" />
+        </td>
+    </tr>
+        }
+
+    </table>
+</div>

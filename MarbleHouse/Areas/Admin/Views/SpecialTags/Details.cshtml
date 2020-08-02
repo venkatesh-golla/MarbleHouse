@@ -1,0 +1,30 @@
+﻿@model MarbleHouse.Models.SpecialTags
+@{
+    ViewData["Title"] = "Details";
+}
+
+<br />
+<br />
+
+<h2 class="text-info">Details of Special Tag</h2>
+
+<div class="p-5 border rounded">
+    <div class="form-group row">
+        <div class="col-2">
+            <label asp-for="Name"></label>
+        </div>
+        <div class="col-6">
+            <input asp-for="Name" class="form-control" readonly />
+        </div>
+    </div>
+
+    <br />
+    <div class="form-group">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info">Edit</a>
+        <a asp-action="Index" class="btn btn-success">Back to List</a>
+    </div>
+</div>
+
+@section Scripts{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
