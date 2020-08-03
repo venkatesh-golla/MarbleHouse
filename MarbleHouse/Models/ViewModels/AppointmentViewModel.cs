@@ -8,7 +8,9 @@ namespace MarbleHouse.Models.ViewModels
     public class AppointmentViewModel
     {
         public List<Appointments> Appointments { get; set; }
-        //public ApplicationUser ApplicationUser { get; set; }
+
+        public PagingInfo PagingInfo { get; set; }
+
 
     }
 }

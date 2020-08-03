@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using MarbleHouse.Data;
 using MarbleHouse.Models;
@@ -18,6 +19,7 @@ namespace MarbleHouse.Areas.Admin.Controllers
     public class AppointmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private int PageSize = 2;
         public AppointmentViewModel AppointmentViewModel;
 
         public AppointmentsController(ApplicationDbContext context)
@@ -28,12 +30,32 @@ namespace MarbleHouse.Areas.Admin.Controllers
                 Appointments = new List<Appointments>()
             };
         }
-        public async Task<IActionResult> Index(string searchName=null, string searchEmail=null,string searchPhone=null, string searchDate=null)
+        public async Task<IActionResult> Index(string searchName=null, string searchEmail=null,string searchPhone=null, string searchDate=null,int productPage=1)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-
-
+            StringBuilder param =new StringBuilder();
+            param.Append("/Admin/Appointments?productPage=:");
+            param.Append("&searchName=");
+            if (searchName != null)
+            {
+                param.Append(searchName);
+            }
+            param.Append("&searchEmail=");
+            if (searchEmail != null)
+            {
+                param.Append(searchEmail);
+            }
+            param.Append("&searchPhone=");
+            if (searchPhone != null)
+            {
+                param.Append(searchPhone);
+            }
+            param.Append("&searchDate=");
+            if (searchDate != null)
+            {
+                param.Append(searchDate);
+            }
             AppointmentViewModel.Appointments = _context.Appointments.Include(s => s.SalesPerson).ToList();
             if (User.IsInRole(SD.AdminEndUser))
             {
@@ -65,6 +87,19 @@ namespace MarbleHouse.Areas.Admin.Controllers
 
                 }
             }
+
+            var count = AppointmentViewModel.Appointments.Count;
+            AppointmentViewModel.Appointments = AppointmentViewModel.Appointments.OrderBy(p => p.AppointmentDate)
+                .Skip((productPage - 1) * PageSize)
+                .Take(PageSize).ToList();
+            AppointmentViewModel.PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = PageSize,
+                TotalItems = count,
+                urlParameter = param.ToString()
+            };
+
             return View(AppointmentViewModel);
         }
 
